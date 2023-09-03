@@ -8,6 +8,8 @@ CLASS lcl_file_handler IMPLEMENTATION.
     DATA return_code TYPE i.
     DATA user_action TYPE i.
 
+    result = me.
+
     cl_gui_frontend_services=>file_open_dialog(
       EXPORTING
         file_filter    = |{ cl_gui_frontend_services=>filetype_excel }{ cl_gui_frontend_services=>filetype_all }|
@@ -27,8 +29,6 @@ CLASS lcl_file_handler IMPLEMENTATION.
     ENDIF.
     ASSERT user_action = cl_gui_frontend_services=>action_ok.
     file_name = selected_files[ 1 ]-filename.
-
-    result = me.
   ENDMETHOD.
 
   METHOD get_file_name.

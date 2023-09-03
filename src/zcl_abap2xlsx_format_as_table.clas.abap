@@ -26,8 +26,12 @@ CLASS zcl_abap2xlsx_format_as_table IMPLEMENTATION.
 
   METHOD main.
     DATA(selected_file) = file_handler->select_excel_file( )->get_file_name( ).
+    IF selected_file IS INITIAL.
+      MESSAGE |No file selected'| TYPE 'I'.
+      RETURN.
+    ENDIF.
 
-    FIND FIRST OCCURRENCE OF PCRE '(\.xlsx|\.xlsm)\s*$' IN selected_file SUBMATCHES DATA(extension).
+    FIND FIRST OCCURRENCE OF REGEX '(\.xlsx|\.xlsm)\s*$' IN selected_file SUBMATCHES DATA(extension).
     CASE to_upper( extension ).
       WHEN '.XLSX'.
         ooxml_reader = NEW zcl_excel_reader_2007( ).
